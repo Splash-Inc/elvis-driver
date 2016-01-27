@@ -1,0 +1,28 @@
+{
+  "name": "elvis-driver",
+  "version": "1.0.0",
+  "description": "Universal javascript driver, that works on both client-side javascript and Node, for handling connections to Elvis API.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/splash-elvis/elvis-driver.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/splash-elvis/elvis-driver/issues"
+  },
+  "homepage": "https://github.com/splash-elvis/elvis-driver#readme",
+  "dependencies": {
+    "superagent": "^1.7.2"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.7.0"
+  }
+}
