@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/splash-elvis/elvis-driver#readme",
   "dependencies": {
+    "lodash": "^4.2.0",
     "superagent": "^1.7.2"
   },
   "devDependencies": {
