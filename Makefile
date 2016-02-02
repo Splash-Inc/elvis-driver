@@ -16,6 +16,7 @@ clean:
 watch:
 	@echo Watching scripts...
 	@$(BIN)/watchify \
+		--transform babelify \
 		--verbose \
 		--standalone Elvis \
 		--delay=100 \
@@ -25,6 +26,7 @@ watch:
 build:
 	@echo Building scripts...
 	@$(BIN)/browserify \
+		--transform babelify \
 		--standalone Elvis \
 		--debug \
 		$(JS_INPUT) --outfile $(JS_OUTPUT)
