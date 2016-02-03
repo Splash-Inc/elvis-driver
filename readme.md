@@ -7,7 +7,8 @@
 
 Universal javascript driver for handling connections to Elvis API.
 
-This module can be used in client-side as well as in server-side Node.
+This module can be used in client-side as well as in server-side Node
+(**latest stable**).
 
 ### Setup
 
