@@ -41,3 +41,29 @@ test('elvisClient.login()', t => {
         t.end()
       })
 })
+
+
+test('elvisClient.logout()', t => {
+
+  var elvisAdapter = Elvis.createClient(testConfig.server)
+
+  elvisAdapter
+      .login(testConfig.username, testConfig.password)
+      .then(() => {
+        elvisAdapter
+            .logout()
+            .then(data => {
+              t.assert(
+                  typeof data === 'object' &&
+                  data.errorcode === 401 &&
+                  data.message === 'Not logged in',
+                  'Logout returns a response body which has the correct code and message.')
+              t.end()
+            })
+            .catch(error => {
+              console.log('logout error:', error)
+              t.fail('Couldn\'t log out')
+              t.end()
+            })
+      })
+})

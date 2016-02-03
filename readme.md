@@ -16,16 +16,17 @@ This module can be used in client-side as well as in server-side Node
 npm i -S elvis-driver
 ```
 
-Require in Node
+```js
+// Node
+var Elvis = require('elvis-server')
 
-```
-require('elvis-server')
-```
+// Browserify / Webpack
+var Elvis = require('elvis-server/browser')
 
-Require in browserify/webpack
-
-```
-require('elvis-server/browser')
+// Create client instance
+var client = Elvis.createClient('serverAddress')
+client.login('username', 'password')
+// ...
 ```
 
 ### Documentation
