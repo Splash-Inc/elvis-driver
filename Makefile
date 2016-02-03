@@ -1,12 +1,12 @@
 BIN = ./node_modules/.bin
-DIST = ./dist
+DIST = ./browser
 SRC = ./src
 
 JS_INPUT = $(SRC)/index.js
 JS_OUTPUT = $(DIST)/index.js
 
-all: clean build
-	@make finish_message type=build
+all: clean browserify
+	@make finish_message type=browserify
 
 clean:
 	@echo Cleaning $(DIST) folder
@@ -23,8 +23,8 @@ watch:
 		--debug \
 		$(JS_INPUT) -o $(JS_OUTPUT)
 
-build:
-	@echo Building scripts...
+browserify:
+	@echo Browserifying...
 	@$(BIN)/browserify \
 		--transform babelify \
 		--standalone Elvis \
@@ -35,7 +35,7 @@ release: all min
 	@make finish_message type=release
 
 min:
-	@echo Minifying scripts...
+	@echo Minifying...
 	@$(BIN)/uglifyjs $(JS_OUTPUT) -o $(JS_OUTPUT)
 
 finish_message:

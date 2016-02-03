@@ -16,6 +16,5 @@ module.exports = function logout() {
             resolve(data)
           }
         })
-
   })
 }
