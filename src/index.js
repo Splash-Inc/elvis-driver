@@ -1,3 +1,5 @@
+'use strict'
+
 require('babel-polyfill')
 
 var methods = {
@@ -19,13 +21,18 @@ var methods = {
   removeRelation:         require('./public/remove_relation')
 }
 
-function Elvis(options) {
-  this.elvisServerURL = options.server
+function Elvis(server) {
+  this.elvisServerURL = server
   this.sessionID = null
+  return this
 }
 
 for (let method of Object.keys(methods)) {
   Elvis.prototype[method] = methods[method]
 }
 
-module.exports = Elvis
+module.exports = {
+  createClient(server) {
+    return new Elvis(server)
+  }
+}
