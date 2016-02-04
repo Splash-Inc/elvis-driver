@@ -1,6 +1,6 @@
 {
   "name": "elvis-driver",
-  "version": "1.0.4-3",
+  "version": "1.0.4",
   "description": "Universal javascript driver, that works on both client-side javascript and Node, for handling connections to Elvis API.",
   "main": "lib/index.js",
   "scripts": {
