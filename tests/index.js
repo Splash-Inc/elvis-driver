@@ -1,19 +1,29 @@
+'use strict'
+
 var test = require('tape')
 var Elvis = require('..')
 var testConfig = require('./test_config')
 
+function catchError(t) {
+  return error => {
+    console.log('error:', error)
+    t.fail('Error occured.')
+    t.end()
+  }
+}
+
 
 test('Elvis createClient', t => {
 
-  var elvisAdapter = Elvis.createClient(testConfig.server)
+  var client = Elvis.createClient(testConfig.server)
 
-  t.equal(typeof elvisAdapter, 'object',
+  t.equal(typeof client, 'object',
       'Create a client instance.')
 
-  t.equal(elvisAdapter.elvisServerURL, testConfig.server,
+  t.equal(client.elvisServerURL, testConfig.server,
       'Client instance has the correct server url.')
 
-  t.false(elvisAdapter.sessionID,
+  t.false(client.sessionID,
       'Client instance has a sessionID which is not set yet.')
 
   t.end()
@@ -23,63 +33,115 @@ test('Elvis createClient', t => {
 
 test('private getRemoteUrl', t => {
 
-  var elvisAdapter = Elvis.createClient(testConfig.server)
+  var client = Elvis.createClient(testConfig.server)
 
   t.equal(
-      elvisAdapter.__getRemoteURL('/some/path'),
-      elvisAdapter.elvisServerURL + '/some/path',
+      client.__getRemoteURL('/some/path'),
+      client.elvisServerURL + '/some/path',
       'Just concats path with server url, unless logged in')
 
-  elvisAdapter
+  client
       .login(testConfig.username, testConfig.password)
       .then(() => {
 
         t.equal(
-            elvisAdapter.__getRemoteURL('/foo/bar'),
-            elvisAdapter.__withSessionID(
-                elvisAdapter.elvisServerURL + '/foo/bar'),
+            client.__getRemoteURL('/foo/bar'),
+            client.__withSessionID(
+                client.elvisServerURL + '/foo/bar'),
             'Returns remote url with session id, after login')
 
         t.end()
 
       })
+      .catch(catchError(t))
+
+})
+
+
+test('private hitWithSessionID', t => {
+
+  var client = Elvis.createClient(testConfig.server)
+
+  client
+      .login(testConfig.username, testConfig.password)
+      .then(() => {
+
+        function checkMapping(hit1, hit2) {
+          for (let key of Object.keys(hit1)) {
+            if (typeof hit1[key] === 'string') {
+              t.equal(
+                  client.__withSessionID(hit1[key]),
+                  hit2[key],
+                  `maps ${key}`)
+
+            } else if (typeof hit1[key] === 'object') {
+              hit1[key].forEach((subField, index) => {
+                checkMapping(subField, hit2[key][index])
+              })
+            }
+          }
+        }
+
+        var sampleHit = {
+          thumbnailUrl: 'lorem',
+          previewUrl: 'ipsum',
+          originalUrl: 'dolor',
+          thumbnailHits: [
+            {
+              thumbnailUrl: 'sit',
+              previewUrl: 'amet',
+              originalUrl: 'adipiscing'
+            }
+          ]
+        }
+
+        var sampleHitWithSession = client.__hitWithSessionID(
+            JSON.parse(JSON.stringify(sampleHit)))
+
+        checkMapping(sampleHit, sampleHitWithSession)
+
+        t.end()
+
+      })
+      .catch(catchError(t))
 
 })
 
 
 test('private withSessionID', t => {
 
-  var elvisAdapter = Elvis.createClient(testConfig.server)
+  var client = Elvis.createClient(testConfig.server)
 
-  t.false(elvisAdapter.__withSessionID('/foo/bar'),
+  t.false(client.__withSessionID('/foo/bar'),
       'Returns null if not logged in')
 
-  elvisAdapter
+  client
       .login(testConfig.username, testConfig.password)
       .then(() => {
 
         t.equal(
-            elvisAdapter.__withSessionID('/foo/bar'),
-            '/foo/bar;jsessionid=' + elvisAdapter.sessionID,
+            client.__withSessionID('/foo/bar'),
+            '/foo/bar;jsessionid=' + client.sessionID,
             'Appends ;jssessionid=<sessionid>')
 
         t.equal(
-            elvisAdapter.__withSessionID('/foo/bar?lorem=baz'),
-            '/foo/bar;jsessionid=' + elvisAdapter.sessionID + '?lorem=baz',
+            client.__withSessionID('/foo/bar?lorem=baz'),
+            '/foo/bar;jsessionid=' + client.sessionID + '?lorem=baz',
             'Inserts ;jssessionid=<sessionid> before any query string')
 
         t.end()
 
       })
+      .catch(catchError(t))
 
 })
 
 
 test('public login', t => {
 
-  var elvisAdapter = Elvis.createClient(testConfig.server)
+  var client = Elvis.createClient(testConfig.server)
 
-  elvisAdapter
+  client
       .login(testConfig.username, testConfig.password)
       .then(data => {
 
@@ -92,27 +154,23 @@ test('public login', t => {
         t.end()
 
       })
-      .catch(error => {
-        console.log('login error:', error)
-        t.fail('Couldn\'t log in')
-        t.end()
-      })
+      .catch(catchError(t))
 })
 
 
 test('public logout', t => {
 
-  var elvisAdapter = Elvis.createClient(testConfig.server)
+  var client = Elvis.createClient(testConfig.server)
 
-  elvisAdapter
+  client
       .login(testConfig.username, testConfig.password)
       .then(() => {
 
-        elvisAdapter
+        client
             .logout()
             .then(() => {
 
-              t.false(elvisAdapter.sessionID,
+              t.false(client.sessionID,
                   'Session ID of client has been removed')
 
               t.end()
@@ -125,4 +183,5 @@ test('public logout', t => {
             })
 
       })
+      .catch(catchError(t))
 })
