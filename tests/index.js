@@ -3,7 +3,7 @@ var Elvis = require('..')
 var testConfig = require('./test_config')
 
 
-test('Elvis.createClient(serverUrl)', t => {
+test('Elvis createClient', t => {
 
   var elvisAdapter = Elvis.createClient(testConfig.server)
 
@@ -21,7 +21,61 @@ test('Elvis.createClient(serverUrl)', t => {
 })
 
 
-test('elvisClient.login()', t => {
+test('private getRemoteUrl', t => {
+
+  var elvisAdapter = Elvis.createClient(testConfig.server)
+
+  t.equal(
+      elvisAdapter.__getRemoteURL('/some/path'),
+      elvisAdapter.elvisServerURL + '/some/path',
+      'Just concats path with server url, unless logged in')
+
+  elvisAdapter
+      .login(testConfig.username, testConfig.password)
+      .then(() => {
+
+        t.equal(
+            elvisAdapter.__getRemoteURL('/foo/bar'),
+            elvisAdapter.__withSessionID(
+                elvisAdapter.elvisServerURL + '/foo/bar'),
+            'Returns remote url with session id, after login')
+
+        t.end()
+
+      })
+
+})
+
+
+test('private withSessionID', t => {
+
+  var elvisAdapter = Elvis.createClient(testConfig.server)
+
+  t.false(elvisAdapter.__withSessionID('/foo/bar'),
+      'Returns null if not logged in')
+
+  elvisAdapter
+      .login(testConfig.username, testConfig.password)
+      .then(() => {
+
+        t.equal(
+            elvisAdapter.__withSessionID('/foo/bar'),
+            '/foo/bar;jsessionid=' + elvisAdapter.sessionID,
+            'Appends ;jssessionid=<sessionid>')
+
+        t.equal(
+            elvisAdapter.__withSessionID('/foo/bar?lorem=baz'),
+            '/foo/bar;jsessionid=' + elvisAdapter.sessionID + '?lorem=baz',
+            'Inserts ;jssessionid=<sessionid> before any query string')
+
+        t.end()
+
+      })
+
+})
+
+
+test('public login', t => {
 
   var elvisAdapter = Elvis.createClient(testConfig.server)
 
@@ -29,8 +83,11 @@ test('elvisClient.login()', t => {
       .login(testConfig.username, testConfig.password)
       .then(data => {
 
-        t.assert(data && data.sessionId,
-            'Login returns an object with a sessionID.')
+        t.equal(typeof data, 'object',
+            'Returns an object')
+
+        t.equal(typeof data.sessionId, 'string',
+            'Returns a session ID')
 
         t.end()
 
@@ -43,27 +100,29 @@ test('elvisClient.login()', t => {
 })
 
 
-test('elvisClient.logout()', t => {
+test('public logout', t => {
 
   var elvisAdapter = Elvis.createClient(testConfig.server)
 
   elvisAdapter
       .login(testConfig.username, testConfig.password)
       .then(() => {
+
         elvisAdapter
             .logout()
-            .then(data => {
-              t.assert(
-                  typeof data === 'object' &&
-                  data.errorcode === 401 &&
-                  data.message === 'Not logged in',
-                  'Logout returns a response body which has the correct code and message.')
+            .then(() => {
+
+              t.false(elvisAdapter.sessionID,
+                  'Session ID of client has been removed')
+
               t.end()
+
             })
             .catch(error => {
               console.log('logout error:', error)
               t.fail('Couldn\'t log out')
               t.end()
             })
+
       })
 })
