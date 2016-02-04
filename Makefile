@@ -32,7 +32,11 @@ browserify:
 		$(JS_INPUT) --outfile $(JS_OUTPUT)
 
 release: all min
-	@make finish_message type=release
+	@npm test && \
+		npm version $(ver) && \
+		git push origin --tags && \
+		npm publish && \
+		make finish_message type=release
 
 min:
 	@echo Minifying...
