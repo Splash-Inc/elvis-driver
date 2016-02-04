@@ -7,7 +7,7 @@ var testConfig = require('./test_config')
 function catchError(t) {
   return error => {
     console.log('error:', error)
-    t.fail('Error occured.')
+    t.fail('An error occured.')
     t.end()
   }
 }
@@ -108,6 +108,37 @@ test('private hitWithSessionID', t => {
 })
 
 
+test('private request', t => {
+
+  var client = Elvis.createClient(testConfig.server)
+
+  client
+      .login(testConfig.username, testConfig.password)
+      .then(() => {
+
+        client.__request({
+          url: client.__getRemoteURL('/services/search'),
+          params: { num: 0, q: '' },
+          failure: catchError(t),
+          success: data => {
+
+            t.equal(typeof data, 'object',
+                'Responded an object')
+
+            t.deepEqual(data.totalHits, 0,
+                'Responded empty array of results')
+
+            t.end()
+
+          }
+        })
+
+      })
+      .catch(catchError(t))
+
+})
+
+
 test('private withSessionID', t => {
 
   var client = Elvis.createClient(testConfig.server)
@@ -176,11 +207,7 @@ test('public logout', t => {
               t.end()
 
             })
-            .catch(error => {
-              console.log('logout error:', error)
-              t.fail('Couldn\'t log out')
-              t.end()
-            })
+            .catch(catchError(t))
 
       })
       .catch(catchError(t))
