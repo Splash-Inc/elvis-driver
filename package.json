@@ -2,7 +2,7 @@
   "name": "elvis-driver",
   "version": "1.0.3",
   "description": "Universal javascript driver, that works on both client-side javascript and Node, for handling connections to Elvis API.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "node ./tests | tap-spec"
   },
@@ -30,5 +30,8 @@
     "tape": "^4.4.0",
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
+  },
+  "engines": {
+    "node": ">=5.2"
   }
 }

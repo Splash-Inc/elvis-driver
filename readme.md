@@ -8,7 +8,7 @@
 Universal javascript driver for handling connections to Elvis API.
 
 This module can be used in client-side as well as in server-side Node
-(**latest stable**).
+(**≥5.2**).
 
 ### Setup
 
@@ -18,15 +18,14 @@ npm i -S elvis-driver
 
 ```js
 // Node
-var Elvis = require('elvis-server')
+var Elvis = require('elvis-driver')
 
 // Browserify / Webpack
-var Elvis = require('elvis-server/browser')
+var Elvis = require('elvis-driver/browser')
 
 // Create client instance
 var client = Elvis.createClient('serverAddress')
-client.login('username', 'password')
-// ...
+client.login('username', 'password').then(/*...*/)
 ```
 
 ### Documentation

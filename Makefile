@@ -1,6 +1,6 @@
 BIN = ./node_modules/.bin
 DIST = ./browser
-SRC = ./src
+SRC = ./lib
 
 JS_INPUT = $(SRC)/index.js
 JS_OUTPUT = $(DIST)/index.js
