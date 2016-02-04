@@ -34,6 +34,7 @@ browserify:
 release:
 	@npm test && \
 		npm version $(ver) && \
+		git push && \
 		git push origin --tags && \
 		npm publish && \
 		make finish_message type=release
