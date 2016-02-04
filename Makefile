@@ -31,7 +31,7 @@ browserify:
 		--debug \
 		$(JS_INPUT) --outfile $(JS_OUTPUT)
 
-release: all min
+release:
 	@npm test && \
 		npm version $(ver) && \
 		git push origin --tags && \
