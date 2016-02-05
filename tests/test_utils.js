@@ -11,8 +11,7 @@ module.exports = {
   catchError(t) {
     return error => {
       console.log('error:', error)
-      t.fail('An error occured.')
-      t.end()
+      t.end('An error occured.')
     }
   }
 

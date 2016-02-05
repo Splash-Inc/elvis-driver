@@ -4,6 +4,8 @@ module.exports = function (test, utils, Elvis) {
 
   test('Elvis createClient', t => {
 
+    t.plan(3)
+
     var client = Elvis.createClient(utils.server)
 
     t.equal(typeof client, 'object',
@@ -14,8 +16,6 @@ module.exports = function (test, utils, Elvis) {
 
     t.false(client.sessionID,
         'Client instance has a sessionID which is not set yet.')
-
-    t.end()
 
   })
 

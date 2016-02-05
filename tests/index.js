@@ -22,7 +22,9 @@ function deleteAll() {
 
               return Promise.all(promises)
             })
+            .catch(console.log)
       })
+      .catch(console.log)
 }
 
 deleteAll().then(() => {

@@ -19,8 +19,8 @@ module.exports = function (test, utils, Elvis) {
               t.equal(typeof data, 'object',
                   'Responded an object')
 
-              t.deepEqual(data.totalHits, 0,
-                  'Empty array of results received')
+              t.equal(typeof data.totalHits, 'number',
+                  'Returned object has the totalHits field')
 
               t.end()
 
