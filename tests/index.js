@@ -13,12 +13,12 @@ function deleteAll() {
   return client
       .login(utils.username, utils.password)
       .then(() => {
-        client
+        return client
             .search({ q: '' })
             .then(data => {
-              var promises = data.hits.map(hit => {
-                return client.remove({ id: hit.id })
-              })
+              var promises = data.hits.map(hit => (
+                  client.remove({ id: hit.id })
+              ))
 
               return Promise.all(promises)
             })
