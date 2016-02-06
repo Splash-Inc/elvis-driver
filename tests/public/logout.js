@@ -7,23 +7,30 @@ module.exports = function (test, utils, Elvis) {
     var client = Elvis.createClient(utils.server)
 
     client
-        .login(utils.username, utils.password)
-        .then(() => {
+        .logout()
+        .then(data => { t.end('Shouldn\'t logout when not logged in') })
+        .catch(() => {
+          t.pass('Shouldn\'t logout when not logged in')
 
           client
-              .logout()
+              .login(utils.username, utils.password)
               .then(() => {
 
-                t.false(client.sessionID,
-                    'Session ID of client has been removed')
+                client
+                    .logout()
+                    .then(() => {
 
-                t.end()
+                      t.false(client.sessionID,
+                          'Session ID of client has been removed')
+
+                      t.end()
+
+                    })
+                    .catch(utils.catchError(t))
 
               })
               .catch(utils.catchError(t))
-
         })
-        .catch(utils.catchError(t))
   })
 
 }
