@@ -9,4 +9,4 @@ cache:
   - node_modules
 script:
   - npm test
-  - npm cover
+  - npm run cover
