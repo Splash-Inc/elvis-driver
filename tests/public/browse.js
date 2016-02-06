@@ -11,10 +11,9 @@ module.exports = function (test, utils, Elvis) {
     }
 
     utils
-        .shouldRequireLogin({
-          test: t,
-          promise: client => client.browse({ folderPath: utils.folderPath })
-        })
+        .shouldRequireLogin(t, client => (
+            client.browse({ folderPath: utils.folderPath })
+        ))
         .then(client => {
 
           // Create a collection to browse later on
@@ -22,6 +21,7 @@ module.exports = function (test, utils, Elvis) {
               .create({ assetPath: _collection.assetPath })
               .then(() => {
 
+                // Browse
                 client
                     .browse({ path: utils.folderPath })
                     .then(data => {

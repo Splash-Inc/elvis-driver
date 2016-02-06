@@ -15,10 +15,9 @@ module.exports = function (test, utils, Elvis) {
     }
 
     utils
-        .shouldRequireLogin({
-          test: t,
-          promise: client => client.create({ assetPath: _asset.path })
-        })
+        .shouldRequireLogin(t, client => (
+            client.create({ assetPath: _asset.path })
+        ))
         .then(client => {
           Promise
               .all([

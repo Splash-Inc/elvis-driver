@@ -15,9 +15,7 @@ module.exports = {
     }
   },
 
-  shouldRequireLogin(options) {
-    var test = options.test
-    var promise = options.promise
+  shouldRequireLogin(test, promise) {
     var client = require('..').createClient(this.server)
     var message = 'Authentication should be required'
 

@@ -5,10 +5,9 @@ module.exports = function (test, utils, Elvis) {
   test('public getProfile', t => {
 
     utils
-        .shouldRequireLogin({
-          test: t,
-          promise: client => client.getProfile()
-        })
+        .shouldRequireLogin(t, client => (
+            client.getProfile()
+        ))
         .then(client => {
           client
               .getProfile()
