@@ -2,44 +2,39 @@ module.exports = function (test, utils, Elvis) {
 
   'use strict'
 
-  var timestamp = new Date().getTime()
-  var _collection = {
-    name: `My Collection-${timestamp}`,
-    assetPath: `${utils.folderPath}/My Collection-${timestamp}.collection`
-  }
-
   test('public browse', t => {
 
-    var client = Elvis.createClient(utils.server)
+    var timestamp = new Date().getTime()
+    var _collection = {
+      name: `My Collection-${timestamp}`,
+      assetPath: `${utils.folderPath}/My Collection-${timestamp}.collection`
+    }
 
-    client
-        .browse({ folderPath: utils.folderPath })
-        .then(data => { t.end('Authentication should be required') })
-        .catch(error => {
-          t.pass('Authentication should be required')
+    utils
+        .shouldRequireLogin({
+          test: t,
+          promise: client => client.browse({ folderPath: utils.folderPath })
+        })
+        .then(client => {
+
+          // Create a collection to browse later on
           client
-              .login(utils.username, utils.password)
+              .create({ assetPath: _collection.assetPath })
               .then(() => {
 
-                // Create a collection to browse later on
                 client
-                    .create({ assetPath: _collection.assetPath })
-                    .then(() => {
+                    .browse({ path: utils.folderPath })
+                    .then(data => {
 
-                      client
-                          .browse({ path: utils.folderPath })
-                          .then(data => {
+                      var foundCollection = data.filter(collection => (
+                          collection.name === _collection.name &&
+                          collection.assetPath === _collection.assetPath
+                      ))[0]
 
-                            var foundCollection = data.filter(collection => (
-                                collection.name === _collection.name &&
-                                collection.assetPath === _collection.assetPath
-                            ))[0]
+                      t.assert(foundCollection, 'Found newly created collection')
 
-                            t.assert(foundCollection, 'Found newly created collection')
+                      t.end()
 
-                            t.end()
-                          })
-                          .catch(utils.catchError(t))
                     })
                     .catch(utils.catchError(t))
 
@@ -47,7 +42,7 @@ module.exports = function (test, utils, Elvis) {
               .catch(utils.catchError(t))
 
         })
-
+        .catch(utils.catchError(t))
   })
 
 }

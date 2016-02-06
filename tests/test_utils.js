@@ -13,6 +13,28 @@ module.exports = {
       console.log('error:', error)
       t.end('An error occured.')
     }
+  },
+
+  shouldRequireLogin(options) {
+    var test = options.test
+    var promise = options.promise
+    var client = require('..').createClient(this.server)
+    var message = 'Authentication should be required'
+
+    return new Promise((resolve, reject) => {
+      promise(client)
+          .then(() => {
+            test.end(message)
+          })
+          .catch(() => {
+            test.pass(message)
+            client
+                .login(this.username, this.password)
+                .catch(reject)
+                .then(() => { resolve(client) })
+          })
+    })
+
   }
 
 }
