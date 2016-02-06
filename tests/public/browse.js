@@ -17,11 +17,11 @@ module.exports = function (test, utils, Elvis) {
         .then(data => { t.end('Authentication should be required') })
         .catch(error => {
           t.pass('Authentication should be required')
-
           client
               .login(utils.username, utils.password)
               .then(() => {
 
+                // Create a collection to browse later on
                 client
                     .create({ assetPath: _collection.assetPath })
                     .then(() => {

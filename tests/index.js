@@ -6,9 +6,7 @@ var utils = require('./test_utils')
 var Elvis = require('..')
 
 function deleteAll() {
-
   console.log('Deleting all files from remote')
-
   var client = Elvis.createClient(utils.server)
   return client
       .login(utils.username, utils.password)
