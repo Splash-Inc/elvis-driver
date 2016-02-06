@@ -4,7 +4,8 @@
   "description": "Universal javascript driver, that works on both client-side javascript and Node, for handling connections to Elvis API.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node ./tests | tap-spec"
+    "test": "node ./tests | tap-spec",
+    "cover": "istanbul cover ./tests && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,8 @@
     "babel-preset-es2015": "^6.3.13",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.2",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
     "uglifyjs": "^2.4.10",
