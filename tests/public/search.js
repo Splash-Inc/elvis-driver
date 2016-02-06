@@ -4,15 +4,15 @@ module.exports = function (test, utils, Elvis) {
 
   test('public search', t => {
 
-    var timestamp = new Date().getTime()
-    var _asset = {
-      name: `foo-${timestamp}.txt`,
-      path: `${utils.folderPath}/foo-${timestamp}.txt`
-    }
-
     utils
-        .shouldRequireLogin(t, client => client.search({ q: '' }))
+        .shouldRequireLogin(t, client => client.search())
         .then(client => {
+
+          var timestamp = new Date().getTime()
+          var _asset = {
+            name: `foo-${timestamp}.txt`,
+            path: `${utils.folderPath}/foo-${timestamp}.txt`
+          }
 
           // Create a file for searching for it later on
           client

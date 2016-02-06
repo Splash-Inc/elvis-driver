@@ -4,17 +4,15 @@ module.exports = function (test, utils, Elvis) {
 
   test('public browse', t => {
 
-    var timestamp = new Date().getTime()
-    var _collection = {
-      name: `My Collection-${timestamp}`,
-      assetPath: `${utils.folderPath}/My Collection-${timestamp}.collection`
-    }
-
     utils
-        .shouldRequireLogin(t, client => (
-            client.browse({ folderPath: utils.folderPath })
-        ))
+        .shouldRequireLogin(t, client => client.browse())
         .then(client => {
+
+          var timestamp = new Date().getTime()
+          var _collection = {
+            name: `My Collection-${timestamp}`,
+            assetPath: `${utils.folderPath}/My Collection-${timestamp}.collection`
+          }
 
           // Create a collection to browse later on
           client

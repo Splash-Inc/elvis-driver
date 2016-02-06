@@ -4,21 +4,20 @@ module.exports = function (test, utils, Elvis) {
 
   test('public create', t => {
 
-    var timestamp = new Date().getTime()
-    var _asset = {
-      name: `foo-${timestamp}.txt`,
-      path: `${utils.folderPath}/foo-${timestamp}.txt`
-    }
-    var _collection = {
-      name: `My Collection-${timestamp}`,
-      path: `${utils.folderPath}/My Collection-${timestamp}.collection`
-    }
-
     utils
-        .shouldRequireLogin(t, client => (
-            client.create({ assetPath: _asset.path })
-        ))
+        .shouldRequireLogin(t, client => client.create())
         .then(client => {
+
+          var timestamp = new Date().getTime()
+          var _asset = {
+            name: `foo-${timestamp}.txt`,
+            path: `${utils.folderPath}/foo-${timestamp}.txt`
+          }
+          var _collection = {
+            name: `My Collection-${timestamp}`,
+            path: `${utils.folderPath}/My Collection-${timestamp}.collection`
+          }
+
           Promise
               .all([
 

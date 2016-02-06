@@ -2,15 +2,15 @@ module.exports = function (test, utils, Elvis) {
 
   test('public remove', t => {
 
-    var timestamp = new Date().getTime()
-    var _asset = {
-      name: `foo-${timestamp}.txt`,
-      path: `${utils.folderPath}/foo-${timestamp}.txt`
-    }
-
     utils
         .shouldRequireLogin(t, client => client.remove())
         .then(client => {
+
+          var timestamp = new Date().getTime()
+          var _asset = {
+            name: `foo-${timestamp}.txt`,
+            path: `${utils.folderPath}/foo-${timestamp}.txt`
+          }
 
           // Create file to remove later on
           client
@@ -33,17 +33,21 @@ module.exports = function (test, utils, Elvis) {
                                 hit.metadata.id === file.metadata.id
                             ))[0]
 
-                            t.false(foundFile, 'Couldn\'t find newly removed file')
+                            t.false(foundFile, 'Shouldn\'t find newly removed file')
 
                           })
+                          .catch(utils.catchError(t))
 
                       t.end()
 
                     })
+                    .catch(utils.catchError(t))
 
               })
+              .catch(utils.catchError(t))
 
         })
+        .catch(utils.catchError(t))
 
   })
 
