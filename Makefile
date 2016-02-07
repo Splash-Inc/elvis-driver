@@ -41,7 +41,7 @@ release:
 
 min:
 	@echo Minifying...
-	@$(BIN)/uglifyjs $(JS_OUTPUT) -o $(JS_OUTPUT)
+	@$(BIN)/uglifyjs $(JS_OUTPUT) -mc -o $(JS_OUTPUT)
 
 finish_message:
 	@echo Finished $(type). `date`
