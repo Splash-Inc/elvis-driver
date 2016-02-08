@@ -43,6 +43,22 @@ min:
 	@echo Minifying...
 	@$(BIN)/uglifyjs $(JS_OUTPUT) -mc -o $(JS_OUTPUT)
 
+docs:
+	@$(BIN)/jsdox ./lib/public
+	@cat ./readme.md ./output/*.md > __readme.md
+	@rm -rf ./output
+	@node -e "\
+		var fs = require('fs');\
+		fs.writeFileSync('readme.md', (() => (\
+			fs.readFileSync('__readme.md')\
+				.toString()\
+				.replace(/# global(\s+)/gi, '')\
+				.replace(/\* \* \*\s+\*/gi, '*')\
+		))())\
+	"
+	@rm ./__readme.md
+	@make finish_message type=documentation
+
 finish_message:
 	@echo Finished $(type). `date`
 	@echo '====='

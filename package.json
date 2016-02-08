@@ -29,6 +29,7 @@
     "browserify": "^13.0.0",
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.2",
+    "jsdox": "^0.4.9",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
     "uglifyjs": "^2.4.10",
