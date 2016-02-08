@@ -6,29 +6,48 @@ module.exports = function (test, utils, Elvis) {
 
     var client = Elvis.createClient(utils.server)
 
-    client
-        .login(utils.username, utils.password)
-        .then(() => {
+    client.__request({
+      url: client.__getRemoteURL('/services/search'),
+      params: { q: '' },
+      success() { t.end('Should fail when not logged in') },
+      failure() {
+        t.pass('Should fail when not logged in')
 
-          client.__request({
-            url: client.__getRemoteURL('/services/search'),
-            params: { num: 0, q: '' },
-            failure: utils.catchError(t),
-            success: data => {
+        client
+            .login(utils.username, utils.password)
+            .then(() => {
 
-              t.equal(typeof data, 'object',
-                  'Responded an object')
+              client.__request({
+                url: client.__getRemoteURL('/services/search'),
+                params: { q: '' },
+                failure: utils.catchError(t),
+                success: data => {
 
-              t.equal(typeof data.totalHits, 'number',
-                  'Returned object has the totalHits field')
+                  t.equal(typeof data, 'object',
+                      'Responded an object')
 
-              t.end()
+                  t.equal(typeof data.totalHits, 'number',
+                      'Returned object has the totalHits field')
 
-            }
-          })
+                  var timestamp = new Date().getTime()
 
-        })
-        .catch(utils.catchError(t))
+                  client.__request({
+                    url: client.__getRemoteURL(`/lorem/ipsum/${timestamp}`),
+                    success() { t.end('Should fail with wrong url') },
+                    failure() {
+                      t.pass('Should fail with wrong url')
+                      t.end()
+                    }
+                  })
+
+                }
+              })
+
+            })
+            .catch(utils.catchError(t))
+
+      }
+    })
   })
 
 }
