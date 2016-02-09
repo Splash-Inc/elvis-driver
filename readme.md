@@ -29,7 +29,10 @@ var Elvis = require('elvis-driver/browser')
 
 // Create client instance
 var client = Elvis.createClient('serverAddress')
-client.login('username', 'password').then(/*...*/)
+client.login({
+    username: 'test',
+    password: '123456'
+}).then(/*...*/)
 ```
 
 ## Documentation
@@ -82,7 +85,7 @@ Create new folder
 
 * * *
 
-### createRelation(target1Id, target2Id, relationType) 
+### createRelation(target1Id, target2Id, relationType, metadata) 
 
 Create relation between two assets
 
@@ -93,6 +96,8 @@ Create relation between two assets
 **target2Id**: `String`, ID of second asset
 
 **relationType**: `String`, Type of relation e.g: 'related'
+
+**metadata**: `Object`, _[optional]_ Optional metadata fields to write to relation node
 
 **Returns**: `Promise`
 
@@ -110,15 +115,31 @@ Get info of current user
 
 * * *
 
-### login(username, password) 
+### login(params, params.username, params.password, params.cred, params.nextUrl, params.failUrl, params.locale, params.timezoneOffset, params.clientType, params.returnProfile) 
 
 Login
 
 **Parameters**
 
-**username**: `String`, Username
+**params**: `Object`, An object contains login parameters
 
-**password**: `String`, Password
+**params.username**: `String`, _[optional]_ Either username and password or cred is required
+
+**params.password**: `String`, _[optional]_ Either username and password or cred is required
+
+**params.cred**: `String`, _[optional]_ A base64 string. Either username and password or cred is required
+
+**params.nextUrl**: `String`, _[optional]_ Url for next page
+
+**params.failUrl**: `String`, _[optional]_ Url for fail page
+
+**params.locale**: `String`, _[optional]_ language_COUNTRY
+
+**params.timezoneOffset**: `Number`, _[optional]_ Timezone offset in milliseconds
+
+**params.clientType**: `string`, _[optional]_ Client type
+
+**params.returnProfile**: `Boolean`, _[optional]_ Returns profile info if given `true`
 
 **Returns**: `Promise`
 
@@ -142,7 +163,8 @@ Remove asset
 
 **Parameters**
 
-**options**: `Object`, Parameters
+**options**: `Object`, An object contains one of these keys:
+ `id`, `ids`, `q`, `folderPath` to find which assets/folders to remove
 
 **Returns**: `Promise`
 
@@ -164,27 +186,49 @@ Removes relation nodes
 
 * * *
 
-### search(params) 
+### search(params, params.q, params.start, params.sort, params.metadataToReturn, params.facets, params.facet.&lt;field&gt;.selection, params.appendRequestSecret) 
 
-Search
+Search assets
 
 **Parameters**
 
 **params**: `Object`, Search parameters
 
+**params.q**: `String`, Query
+
+**params.start**: `Number`, _[optional]_ Start after this number of results
+
+**params.sort**: `String`, _[optional]_ Comma-delimited list of fields to sort on
+
+**params.metadataToReturn**: `String`, _[optional]_ Comma-delimited list of metadata fields
+
+**params.facets**: `String`, _[optional]_ Comma-delimited list of fields
+
+**params.facet.&lt;field&gt;.selection**: `String`, _[optional]_ Comma-delimited list of values that should be `selected` for a given facet
+
+**params.appendRequestSecret**: `Boolean`, _[optional]_ Return results with an encrypted code
+
 **Returns**: `Promise`
 
 
 
 * * *
 
-### update(metadata) 
+### update(id, options, options.metadata, options.Filedata, options.nextUrl) 
 
 Update asset
 
 **Parameters**
 
-**metadata**: `Object`, Update parameters
+**id**: `String`, ID of asset to update
+
+**options**: `Object`, Update parameters
+
+**options.metadata**: `Object`, _[optional]_ Either metadata or Filedata is required
+
+**options.Filedata**: `File`, _[optional]_ Either metadata or Filedata is required
+
+**options.nextUrl**: `String`, _[optional]_ 301 redirect on success
 
 **Returns**: `Promise`
 
@@ -192,13 +236,17 @@ Update asset
 
 * * *
 
-### updateBulk(params) 
+### updateBulk(params, params.q, params.metadata) 
 
 Update multiple assets at once
 
 **Parameters**
 
 **params**: `Object`, Bulk update parameters
+
+**params.q**: `String`, Query for selecting assets
+
+**params.metadata**: `Object`, _[optional]_ Metadata object contains fields to update
 
 **Returns**: `Promise`
 
