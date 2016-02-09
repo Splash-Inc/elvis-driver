@@ -21,8 +21,7 @@ module.exports = function (test, utils, Elvis) {
 
                 // Update
                 client
-                    .update({
-                      id: file.id,
+                    .update(file.id, {
                       cf_follow: '+lorem'
                     })
                     .then(() => {

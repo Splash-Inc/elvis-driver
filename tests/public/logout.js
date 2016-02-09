@@ -13,7 +13,10 @@ module.exports = function (test, utils, Elvis) {
           t.pass('Shouldn\'t logout when not logged in')
 
           client
-              .login(utils.username, utils.password)
+              .login({
+                username: utils.username,
+                password: utils.password
+              })
               .then(() => {
 
                 client

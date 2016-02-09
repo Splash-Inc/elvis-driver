@@ -7,7 +7,10 @@ module.exports = function (test, utils, Elvis) {
     var client = Elvis.createClient(utils.server)
 
     client
-        .login(utils.username, utils.password)
+        .login({
+          username: utils.username,
+          password: utils.password
+        })
         .then(() => {
 
           function checkMapping(hit1, hit2) {

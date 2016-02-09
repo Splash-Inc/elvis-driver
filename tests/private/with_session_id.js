@@ -10,7 +10,10 @@ module.exports = function (test, utils, Elvis) {
         'Returns null if not logged in')
 
     client
-        .login(utils.username, utils.password)
+        .login({
+          username: utils.username,
+          password: utils.password
+        })
         .then(() => {
 
           t.equal(

@@ -9,7 +9,10 @@ function deleteAll() {
   console.log('Deleting all files from remote')
   var client = Elvis.createClient(utils.server)
   return client
-      .login(utils.username, utils.password)
+      .login({
+        username: utils.username,
+        password: utils.password
+      })
       .then(() => {
         return client
             .search({ q: '' })

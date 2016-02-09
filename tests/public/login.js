@@ -7,7 +7,10 @@ module.exports = function (test, utils, Elvis) {
     var client = Elvis.createClient(utils.server)
 
     client
-        .login(utils.username + 'abc', utils.password)
+        .login({
+          username: utils.username + 'abc',
+          password: utils.password
+        })
         .then(data => {
 
           t.end('Should fail with wrong username')
@@ -18,7 +21,10 @@ module.exports = function (test, utils, Elvis) {
           t.pass('Should fail with wrong username')
 
           client
-              .login(utils.username, utils.password)
+              .login({
+                username: utils.username,
+                password: utils.password
+              })
               .then(data => {
 
                 t.equal(typeof data, 'object',

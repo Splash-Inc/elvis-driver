@@ -12,7 +12,10 @@ module.exports = function (test, utils, Elvis) {
         'Just concats path with server url, unless logged in')
 
     client
-        .login(utils.username, utils.password)
+        .login({
+          username: utils.username,
+          password: utils.password
+        })
         .then(() => {
 
           t.equal(

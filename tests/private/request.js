@@ -14,7 +14,10 @@ module.exports = function (test, utils, Elvis) {
         t.pass('Should fail when not logged in')
 
         client
-            .login(utils.username, utils.password)
+            .login({
+              username: utils.username,
+              password: utils.password
+            })
             .then(() => {
 
               client.__request({

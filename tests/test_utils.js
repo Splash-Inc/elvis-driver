@@ -31,7 +31,10 @@ module.exports = {
           .catch(() => {
             test.pass(message)
             client
-                .login(this.username, this.password)
+                .login({
+                  username: this.username,
+                  password: this.password
+                })
                 .catch(reject)
                 .then(() => { resolve(client) })
           })
