@@ -14,11 +14,21 @@ function deleteAll() {
         return client
             .search({ q: '' })
             .then(data => {
-              var promises = data.hits.map(hit => (
+              var assets = data.hits.map(hit => (
                   client.remove({ id: hit.id })
               ))
 
-              return Promise.all(promises)
+              return client
+                  .browse({ path: utils.folderPath })
+                  .then(results => {
+                    var folders = results.map(result => (
+                        client.remove({ folderPath: result.assetPath })
+                    ))
+
+                    return Promise.all(assets.concat(folders))
+
+                  })
+                  .catch(console.log)
             })
             .catch(console.log)
       })

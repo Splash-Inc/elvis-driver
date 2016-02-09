@@ -8,6 +8,10 @@ module.exports = {
 
   folderPath: '/Demo Zone/API TESTS',
 
+  getUniqueName() {
+    return process.hrtime().join('-')
+  },
+
   catchError(t) {
     return error => {
       console.log('error:', error)
