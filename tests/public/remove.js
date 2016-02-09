@@ -35,10 +35,10 @@ module.exports = function (test, utils, Elvis) {
 
                             t.false(foundFile, 'Shouldn\'t find newly removed file')
 
+                            t.end()
+
                           })
                           .catch(utils.catchError(t))
-
-                      t.end()
 
                     })
                     .catch(utils.catchError(t))
