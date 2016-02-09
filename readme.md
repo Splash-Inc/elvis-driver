@@ -67,6 +67,21 @@ Create new asset
 
 * * *
 
+### createFolder(path) 
+
+Create new folder
+
+**Parameters**
+
+**path**: `Array | String`, Path for folder. If this option is supplied as
+ array, multiple folders will be created with given paths.
+
+**Returns**: `Promise`
+
+
+
+* * *
+
 ### createRelation(target1Id, target2Id, relationType) 
 
 Create relation between two assets
@@ -121,13 +136,13 @@ Invalidate current session
 
 * * *
 
-### remove(params) 
+### remove(options) 
 
 Remove asset
 
 **Parameters**
 
-**params**: `Object`, Parameters
+**options**: `Object`, Parameters
 
 **Returns**: `Promise`
 
