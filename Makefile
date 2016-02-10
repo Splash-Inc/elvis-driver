@@ -44,7 +44,7 @@ min:
 	@$(BIN)/uglifyjs $(JS_OUTPUT) -mc -o $(JS_OUTPUT)
 
 docs:
-	@$(BIN)/jsdox ./lib/public
+	@$(BIN)/jsdox $(SRC)/public
 	@cat ./readme.md ./output/*.md > __readme.md
 	@rm -rf ./output
 	@node -e "\
