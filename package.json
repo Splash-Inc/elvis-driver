@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/splash-elvis/elvis-driver.git"
+    "url": "git+https://github.com/Splash-Inc/elvis-driver.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/splash-elvis/elvis-driver/issues"
+    "url": "https://github.com/Splash-Inc/elvis-driver/issues"
   },
-  "homepage": "https://github.com/splash-elvis/elvis-driver#readme",
+  "homepage": "https://github.com/Splash-Inc/elvis-driver#readme",
   "dependencies": {
     "lodash": "^4.2.0",
     "superagent": "^1.7.2"

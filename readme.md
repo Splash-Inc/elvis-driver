@@ -1,11 +1,11 @@
 # Elvis Driver
 
 [![Build Status]
-(https://api.travis-ci.org/splash-elvis/elvis-driver.svg "Build Status")]
-(https://travis-ci.org/splash-elvis/elvis-driver)
+(https://api.travis-ci.org/Splash-Inc/elvis-driver.svg "Build Status")]
+(https://travis-ci.org/Splash-Inc/elvis-driver)
 [![Coverage Status]
-(https://coveralls.io/repos/github/splash-elvis/elvis-driver/badge.svg?branch=master)]
-(https://coveralls.io/github/splash-elvis/elvis-driver?branch=master)
+(https://coveralls.io/repos/github/Splash-Inc/elvis-driver/badge.svg?branch=master)]
+(https://coveralls.io/github/Splash-Inc/elvis-driver?branch=master)
 [![npm version](https://badge.fury.io/js/elvis-driver.svg "Npm Version")]
 (https://badge.fury.io/js/elvis-driver)
 
