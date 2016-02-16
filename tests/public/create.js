@@ -1,3 +1,5 @@
+var fs = require('fs')
+
 module.exports = function (test, utils, Elvis) {
 
   'use strict'
@@ -8,7 +10,7 @@ module.exports = function (test, utils, Elvis) {
         .shouldRequireLogin(t, client => client.create())
         .then(client => {
 
-          var timestamp = new Date().getTime()
+          var timestamp = utils.getUniqueName()
           var _asset = {
             name: `foo-${timestamp}.txt`,
             path: `${utils.folderPath}/foo-${timestamp}.txt`
@@ -17,6 +19,19 @@ module.exports = function (test, utils, Elvis) {
             name: `My Collection-${timestamp}`,
             path: `${utils.folderPath}/My Collection-${timestamp}.collection`
           }
+          var _assetWithFiledata ={
+            name: `bar-${timestamp}.txt`,
+            path: `${utils.folderPath}/bar-${timestamp}.txt`,
+            folder: `${__dirname}/../dummy`,
+            content: `Dummy bar-${timestamp}.txt contents`
+          }
+
+          fs.mkdirSync(_assetWithFiledata.folder)
+
+          fs.writeFileSync(
+              `${_assetWithFiledata.folder}/${_assetWithFiledata.name}`,
+              _assetWithFiledata.content
+          )
 
           Promise
               .all([
@@ -27,13 +42,13 @@ module.exports = function (test, utils, Elvis) {
                     .then(file => {
 
                       t.equal(file.metadata.name, _asset.name,
-                          'name of file is correct')
+                          'name of asset is correct')
 
                       t.equal(file.metadata.folderPath, utils.folderPath,
-                          'folder of file is correct')
+                          'folder of asset is correct')
 
                       t.equal(file.metadata.assetType, 'txt',
-                          'assetType of file is correct')
+                          'assetType of asset is correct')
 
                     }),
 
@@ -51,10 +66,36 @@ module.exports = function (test, utils, Elvis) {
                       t.equal(collection.metadata.assetType, 'collection',
                           'assetType of collection is correct')
 
+                    }),
+
+                // Create asset with filedata
+                client
+                    .create({
+                      assetPath: _assetWithFiledata.path,
+                      Filedata: `${_assetWithFiledata.folder}/${_assetWithFiledata.name}`
+                    })
+                    .then(file => {
+
+                      t.equal(file.metadata.name, _assetWithFiledata.name,
+                          'name of assetWithFiledata is correct')
+
+                      t.equal(file.metadata.folderPath, utils.folderPath,
+                          'folder of assetWithFiledata is correct')
+
+                      t.equal(file.metadata.assetType, 'txt',
+                          'assetType of assetWithFiledata is correct')
+
+                      t.equal(file.metadata.textContent, _assetWithFiledata.content,
+                          'content of assetWithFiledatae is correct')
+
                     })
 
               ])
-              .then(() => { t.end() })
+              .then(() => {
+                fs.unlinkSync(`${_assetWithFiledata.folder}/${_assetWithFiledata.name}`)
+                fs.rmdirSync(_assetWithFiledata.folder)
+                t.end()
+              })
               .catch(utils.catchError(t))
 
         })
