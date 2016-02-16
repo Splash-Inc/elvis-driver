@@ -8,10 +8,10 @@ module.exports = function (test, utils, Elvis) {
         .shouldRequireLogin(t, client => client.browse())
         .then(client => {
 
-          var timestamp = new Date().getTime()
+          var name = utils.getUniqueName()
           var _collection = {
-            name: `My Collection-${timestamp}`,
-            assetPath: `${utils.folderPath}/My Collection-${timestamp}.collection`
+            name: `My Collection-${name}`,
+            assetPath: `${utils.folderPath}/My Collection-${name}.collection`
           }
 
           // Create a collection to browse later on

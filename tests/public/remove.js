@@ -6,7 +6,7 @@ module.exports = function (test, utils, Elvis) {
         .shouldRequireLogin(t, client => client.remove())
         .then(client => {
 
-          var timestamp = new Date().getTime()
+          var timestamp = utils.getUniqueName()
           var _asset = {
             name: `foo-${timestamp}.txt`,
             path: `${utils.folderPath}/foo-${timestamp}.txt`

@@ -16,7 +16,7 @@ module.exports = function (test, utils, Elvis) {
         .shouldRequireLogin(t, client => client.removeRelation())
         .then(client => {
 
-          var timestamp = new Date().getTime()
+          var timestamp = utils.getUniqueName()
           var _assets = [
             {
               name: `foo-${timestamp}.txt`,
