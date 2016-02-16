@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/Splash-Inc/elvis-driver#readme",
   "dependencies": {
+    "jsdoc": "^3.4.0",
     "lodash": "^4.2.0",
+    "minami": "^1.1.1",
     "superagent": "^1.7.2"
   },
   "devDependencies": {
@@ -29,7 +31,6 @@
     "browserify": "^13.0.0",
     "coveralls": "^2.11.6",
     "istanbul": "^0.4.2",
-    "jsdox": "^0.4.9",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
     "uglifyjs": "^2.4.10",
