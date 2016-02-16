@@ -44,7 +44,7 @@ min:
 	@$(BIN)/uglifyjs $(JS_OUTPUT) -mc -o $(JS_OUTPUT)
 
 docs:
-	@$(BIN)/jsdoc ./lib/* -r -R readme.md -d ./docs -t ./node_modules/minami
+	@$(BIN)/jsdoc -c .jsdoc.json --verbose
 	@make finish_message type=documentation
 
 finish_message:
