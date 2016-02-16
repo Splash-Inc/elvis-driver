@@ -4,10 +4,14 @@
 (https://api.travis-ci.org/Splash-Inc/elvis-driver.svg "Build Status")]
 (https://travis-ci.org/Splash-Inc/elvis-driver)
 [![Coverage Status]
-(https://coveralls.io/repos/github/Splash-Inc/elvis-driver/badge.svg?branch=master)]
+(https://coveralls.io/repos/github/Splash-Inc/elvis-driver/badge.svg?branch=master "Coverage Status")]
 (https://coveralls.io/github/Splash-Inc/elvis-driver?branch=master)
-[![npm version](https://badge.fury.io/js/elvis-driver.svg "Npm Version")]
+[![Npm Version]
+(https://badge.fury.io/js/elvis-driver.svg "Npm Version")]
 (https://badge.fury.io/js/elvis-driver)
+[![Dependency Status]
+(https://david-dm.org/Splash-Inc/elvis-driver.svg "Dependency Status")]
+(https://david-dm.org/Splash-Inc/elvis-driver)
 
 Universal javascript driver for handling connections to Elvis API.
 
