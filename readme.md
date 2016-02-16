@@ -15,6 +15,8 @@
 
 Universal javascript driver for handling connections to Elvis DAM API.
 
+https://github.com/Splash-Inc/elvis-driver
+
 This module can be used in client-side as well as in server-side Node
 (**≥5.2**).
 
@@ -41,5 +43,8 @@ client.login({
 
 ## Documentation
 
-See [Elvis' official API documentation]
+[Documentation for elvis-driver](https://github.com/Splash-Inc/elvis-driver)
+
+See also:
+[Elvis' official API documentation]
 (https://helpcenter.woodwing.com/hc/en-us/categories/200142445-Documentation-Elvis-5#APIs)
