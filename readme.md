@@ -7,10 +7,10 @@
 
 Universal javascript driver for handling connections to Elvis DAM API.
 
-[https://github.com/Splash-Inc/elvis-driver]()
+<https://github.com/Splash-Inc/elvis-driver/>
 
 This module can be used in client-side as well as in server-side Node
-(**≥5.2**).
+(**≥4.0**).
 
 ## Setup
 
