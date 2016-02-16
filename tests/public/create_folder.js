@@ -42,26 +42,32 @@ module.exports = function (test, utils, Elvis) {
         .createFolder(folders.map(folder => folder.path))
         .then(response => {
 
-          folders.forEach(folder => {
-            t.equal(response[folder.path], 'created', 'Responds properly')
-          })
+          return new Promise((resolve, reject) => {
 
-          client
-              .browse({ path: utils.folderPath })
-              .then(results => {
+            folders.forEach(folder => {
+              t.equal(response[folder.path], 'created', 'Responds properly')
+            })
 
-                folders.forEach(folder => {
-                  var foundFolder = results.filter(result => (
-                      result.name === folder.name &&
-                      result.assetPath === folder.path &&
-                      !!result.directory
-                  ))[0]
+            client
+                .browse({ path: utils.folderPath })
+                .then(results => {
 
-                  t.assert(foundFolder, 'Found multiply created folder')
+                  folders.forEach(folder => {
+                    var foundFolder = results.filter(result => (
+                        result.name === folder.name &&
+                        result.assetPath === folder.path &&
+                        !!result.directory
+                    ))[0]
+
+                    t.assert(foundFolder, 'Found multiply created folder')
+                  })
+
+                  resolve()
+
                 })
+                .catch(utils.catchError(t))
 
-              })
-              .catch(utils.catchError(t))
+          })
 
         })
         .catch(utils.catchError(t))

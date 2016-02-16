@@ -22,7 +22,7 @@ module.exports = function (test, utils, Elvis) {
           var _assetWithFiledata ={
             name: `bar-${timestamp}.txt`,
             path: `${utils.folderPath}/bar-${timestamp}.txt`,
-            folder: `${__dirname}/../dummy`,
+            folder: `${__dirname}/../dummy-folder-${timestamp}`,
             content: `Dummy bar-${timestamp}.txt contents`
           }
 
