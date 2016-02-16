@@ -5,9 +5,9 @@
 [![Npm Version](https://badge.fury.io/js/elvis-driver.svg "Npm Version")](https://badge.fury.io/js/elvis-driver)
 [![Dependency Status](https://david-dm.org/Splash-Inc/elvis-driver.svg "Dependency Status")](https://david-dm.org/Splash-Inc/elvis-driver)
 
-Universal javascript driver for handling connections to Elvis DAM API.
+[https://splash-inc.github.io/elvis-driver](https://splash-inc.github.io/elvis-driver)
 
-<https://github.com/Splash-Inc/elvis-driver/>
+Universal javascript driver for handling connections to Elvis DAM API.
 
 This module can be used in client-side as well as in server-side Node
 (**≥4.0**).
@@ -35,7 +35,7 @@ client.login({
 
 ## Documentation
 
-[Documentation for elvis-driver](https://github.com/Splash-Inc/elvis-driver)
+[Documentation for elvis-driver](https://splash-inc.github.io/elvis-driver)
 
 See also:
 [Elvis' official API documentation](https://helpcenter.woodwing.com/hc/en-us/categories/200142445-Documentation-Elvis-5#APIs)
