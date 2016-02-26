@@ -52,7 +52,9 @@ deleteAll().then(() => {
         throw error
       }
       for (let file of files) {
-        require(`${directory}/${file}`)(test, utils, Elvis)
+        if (file.match(/.js/)) {
+          require(`${directory}/${file}`)(test, utils, Elvis)
+        }
       }
     })
   })
