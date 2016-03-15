@@ -19,10 +19,16 @@ module.exports = function (test, utils, Elvis) {
             name: `My Collection-${timestamp}`,
             path: `${utils.folderPath}/My Collection-${timestamp}.collection`
           }
-          var _assetWithFiledata ={
+          var _assetWithFiledata = {
             name: `bar-${timestamp}.txt`,
             path: `${utils.folderPath}/bar-${timestamp}.txt`,
             folder: `${__dirname}/../dummy-folder-${timestamp}`,
+            content: `Dummy bar-${timestamp}.txt contents`
+          }
+          var _nonExistentAsset = {
+            name: `bar-${timestamp}.txt`,
+            path: `${utils.folderPath}/bar-${timestamp}.txt`,
+            folder: `${__dirname}/../foo-${timestamp}/dummy-folder-${timestamp}`,
             content: `Dummy bar-${timestamp}.txt contents`
           }
 
@@ -35,6 +41,20 @@ module.exports = function (test, utils, Elvis) {
 
           Promise
               .all([
+
+                // Try to create non-existent asset with filedata
+                client
+                    .create({
+                      assetPath: _nonExistentAsset.path,
+                      Filedata: `${_nonExistentAsset.folder}/${_nonExistentAsset.name}`
+                    })
+                    .then(() => {
+                      t.fail('Should be errored')
+                    })
+                    .catch(error => {
+                      console.log('TEST', error)
+                      t.pass('Should be errored')
+                    }),
 
                 // Create asset
                 client
@@ -86,7 +106,7 @@ module.exports = function (test, utils, Elvis) {
                           'assetType of assetWithFiledata is correct')
 
                       t.equal(file.metadata.textContent, _assetWithFiledata.content,
-                          'content of assetWithFiledatae is correct')
+                          'content of assetWithFiledata is correct')
 
                     })
 
