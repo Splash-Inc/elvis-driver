@@ -86,7 +86,7 @@ module.exports = function (test, utils, Elvis) {
                           'assetType of assetWithFiledata is correct')
 
                       t.equal(file.metadata.textContent, _assetWithFiledata.content,
-                          'content of assetWithFiledatae is correct')
+                          'content of assetWithFiledata is correct')
 
                     })
 
