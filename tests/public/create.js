@@ -26,10 +26,10 @@ module.exports = function (test, utils, Elvis) {
             content: `Dummy bar-${timestamp}.txt contents`
           }
           var _nonExistentAsset = {
-            name: `bar-${timestamp}.txt`,
-            path: `${utils.folderPath}/bar-${timestamp}.txt`,
-            folder: `${__dirname}/../foo-${timestamp}/dummy-folder-${timestamp}`,
-            content: `Dummy bar-${timestamp}.txt contents`
+            name: `non-existent-file.txt`,
+            path: `${utils.folderPath}/non-existent-file.txt`,
+            folder: `non/existent/folder`,
+            content: `Contents of non-existent-file.txt`
           }
 
           fs.mkdirSync(_assetWithFiledata.folder)
@@ -41,20 +41,6 @@ module.exports = function (test, utils, Elvis) {
 
           Promise
               .all([
-
-                // Try to create non-existent asset with filedata
-                client
-                    .create({
-                      assetPath: _nonExistentAsset.path,
-                      Filedata: `${_nonExistentAsset.folder}/${_nonExistentAsset.name}`
-                    })
-                    .then(() => {
-                      t.fail('Should be errored')
-                    })
-                    .catch(error => {
-                      console.log('TEST', error)
-                      t.pass('Should be errored')
-                    }),
 
                 // Create asset
                 client
@@ -108,6 +94,20 @@ module.exports = function (test, utils, Elvis) {
                       t.equal(file.metadata.textContent, _assetWithFiledata.content,
                           'content of assetWithFiledata is correct')
 
+                    }),
+
+                // Try to create non-existent asset with filedata
+                client
+                    .create({
+                      assetPath: _nonExistentAsset.path,
+                      Filedata: `${_nonExistentAsset.folder}/${_nonExistentAsset.name}`
+                    })
+                    .then(() => {
+                      t.fail('non-existent-file should throw ENOENT')
+                    })
+                    .catch(error => {
+                      t.equal(error.code, 'ENOENT',
+                          'non-existent-file should throw ENOENT')
                     })
 
               ])
