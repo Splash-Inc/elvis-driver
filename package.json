@@ -22,7 +22,7 @@
     "jsdoc": "^3.4.0",
     "lodash": "^4.2.0",
     "minami": "^1.1.1",
-    "superagent": "^1.7.2"
+    "superagent": "^1.8.2"
   },
   "devDependencies": {
     "babel-polyfill": "^6.5.0",
