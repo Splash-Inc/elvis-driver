@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "node ./tests | tap-spec",
+    "browser-test": "zuul --local 8989 -- ./tests/browser.js",
     "cover": "istanbul cover ./tests && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
@@ -34,7 +35,8 @@
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
     "uglifyjs": "^2.4.10",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "zuul": "^3.10.1"
   },
   "engines": {
     "node": ">=4.0"

@@ -2,7 +2,7 @@
 
 var fs = require('fs')
 var test = require('tape')
-var utils = require('./test_utils')
+var utils = require('./test_utils')()
 var Elvis = require('..')
 
 function deleteAll() {

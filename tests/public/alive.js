@@ -2,7 +2,7 @@ module.exports = function (test, utils, Elvis) {
 
   'use strict'
 
-  test('public browse', t => {
+  test('public alive', t => {
 
     utils
         .shouldRequireLogin(t, client => client.alive())
