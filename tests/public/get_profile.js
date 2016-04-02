@@ -5,7 +5,7 @@ module.exports = function (test, utils, Elvis) {
   test('public getProfile', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.getProfile())
+        .shouldRequireLogin(t, client => client.getProfile(), Elvis)
         .then(client => {
           client
               .getProfile()

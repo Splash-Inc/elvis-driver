@@ -13,7 +13,7 @@ module.exports = function (test, utils, Elvis) {
     }
 
     utils
-        .shouldRequireLogin(t, client => client.removeRelation())
+        .shouldRequireLogin(t, client => client.removeRelation(), Elvis)
         .then(client => {
 
           var timestamp = utils.getUniqueName()

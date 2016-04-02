@@ -10,18 +10,21 @@ module.exports = function (isBrowser) {
     folderPath: '/Demo Zone/API TESTS',
 
     getUniqueName() {
-      return process.hrtime().join('-')
+      return isBrowser ?
+          `${Date.now()}-${parseInt(Math.random() * 100000)}` :
+          process.hrtime().join('-')
     },
 
     catchError(t) {
       return error => {
-        console.log('error:', error)
+        console.error('error:', error)
         t.end('An error occured.')
       }
     },
 
-    shouldRequireLogin(test, promise) {
-      var client = require(`../${isBrowser ? 'browser' : ''}`).createClient(this.server)
+    shouldRequireLogin(test, promise, Elvis) {
+      var lib = '..'
+      var client = (Elvis || require(lib)).createClient(this.server)
       var message = 'Authentication should be required'
 
       return new Promise((resolve, reject) => {
@@ -41,6 +44,36 @@ module.exports = function (isBrowser) {
             })
       })
 
+    },
+
+    deleteAll(Elvis) {
+      console.log('Deleting all files from remote')
+      var client = Elvis.createClient(this.server)
+      return client
+          .login({
+            username: this.username,
+            password: this.password
+          })
+          .then(() => client
+              .search({ q: '' })
+              .then(data => {
+                var assets = data.hits.map(hit => (
+                    client.remove({ id: hit.id })
+                ))
+
+                return client
+                    .browse({ path: this.folderPath })
+                    .then(results => {
+                      var folders = results.map(result => (
+                          client.remove({ folderPath: result.assetPath })
+                      ))
+
+                      return Promise.all(assets.concat(folders))
+
+                    })
+              })
+          )
+          .catch(console.log)
     }
 
   }

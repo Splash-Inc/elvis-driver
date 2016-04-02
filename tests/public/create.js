@@ -1,13 +1,13 @@
 var fs = require('fs')
 
-module.exports = function (test, utils, Elvis) {
+module.exports = function (test, utils, Elvis, isBrowser) {
 
   'use strict'
 
   test('public create', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.create())
+        .shouldRequireLogin(t, client => client.create(), Elvis)
         .then(client => {
 
           var timestamp = utils.getUniqueName()
@@ -19,7 +19,7 @@ module.exports = function (test, utils, Elvis) {
             name: `My Collection-${timestamp}`,
             path: `${utils.folderPath}/My Collection-${timestamp}.collection`
           }
-          var _assetWithFiledata = {
+          var _assetWithData = {
             name: `bar-${timestamp}.txt`,
             path: `${utils.folderPath}/bar-${timestamp}.txt`,
             folder: `${__dirname}/../dummy-folder-${timestamp}`,
@@ -32,70 +32,80 @@ module.exports = function (test, utils, Elvis) {
             content: `Contents of non-existent-file.txt`
           }
 
-          fs.mkdirSync(_assetWithFiledata.folder)
+          var fileData
 
-          fs.writeFileSync(
-              `${_assetWithFiledata.folder}/${_assetWithFiledata.name}`,
-              _assetWithFiledata.content
-          )
+          if (isBrowser) {
+            fileData = new File([_assetWithData.content], _assetWithData.name, {type: 'text'})
 
-          Promise
-              .all([
+          } else {
+            fs.mkdirSync(_assetWithData.folder)
 
-                // Create asset
-                client
-                    .create({ assetPath: _asset.path })
-                    .then(file => {
+            fs.writeFileSync(
+                `${_assetWithData.folder}/${_assetWithData.name}`,
+                _assetWithData.content
+            )
+          }
 
-                      t.equal(file.metadata.name, _asset.name,
-                          'name of asset is correct')
+          var tests = [
 
-                      t.equal(file.metadata.folderPath, utils.folderPath,
-                          'folder of asset is correct')
+            // Create asset
+            client
+                .create({ assetPath: _asset.path })
+                .then(file => {
 
-                      t.equal(file.metadata.assetType, 'txt',
-                          'assetType of asset is correct')
+                  t.equal(file.metadata.name, _asset.name,
+                      'name of asset is correct')
 
-                    }),
+                  t.equal(file.metadata.folderPath, utils.folderPath,
+                      'folder of asset is correct')
 
-                // Create collection
-                client
-                    .create({ assetPath: _collection.path })
-                    .then(collection => {
+                  t.equal(file.metadata.assetType, 'txt',
+                      'assetType of asset is correct')
 
-                      t.equal(collection.metadata.name, _collection.name,
-                          'name of collection is correct')
+                }),
 
-                      t.equal(collection.metadata.folderPath, utils.folderPath,
-                          'folder of collection is correct')
+            // Create collection
+            client
+                .create({ assetPath: _collection.path })
+                .then(collection => {
 
-                      t.equal(collection.metadata.assetType, 'collection',
-                          'assetType of collection is correct')
+                  t.equal(collection.metadata.name, _collection.name,
+                      'name of collection is correct')
 
-                    }),
+                  t.equal(collection.metadata.folderPath, utils.folderPath,
+                      'folder of collection is correct')
 
-                // Create asset with filedata
-                client
-                    .create({
-                      assetPath: _assetWithFiledata.path,
-                      Filedata: `${_assetWithFiledata.folder}/${_assetWithFiledata.name}`
-                    })
-                    .then(file => {
+                  t.equal(collection.metadata.assetType, 'collection',
+                      'assetType of collection is correct')
 
-                      t.equal(file.metadata.name, _assetWithFiledata.name,
-                          'name of assetWithFiledata is correct')
+                }),
 
-                      t.equal(file.metadata.folderPath, utils.folderPath,
-                          'folder of assetWithFiledata is correct')
+            // Create asset with filedata
+            client
+                .create({
+                  assetPath: _assetWithData.path,
+                  Filedata: fileData || `${_assetWithData.folder}/${_assetWithData.name}`
+                })
+                .then(file => {
 
-                      t.equal(file.metadata.assetType, 'txt',
-                          'assetType of assetWithFiledata is correct')
+                  t.equal(file.metadata.name, _assetWithData.name,
+                      'name of assetWithFiledata is correct')
 
-                      t.equal(file.metadata.textContent, _assetWithFiledata.content,
-                          'content of assetWithFiledata is correct')
+                  t.equal(file.metadata.folderPath, utils.folderPath,
+                      'folder of assetWithFiledata is correct')
 
-                    }),
+                  t.equal(file.metadata.assetType, 'txt',
+                      'assetType of assetWithFiledata is correct')
 
+                  t.equal(file.metadata.textContent, _assetWithData.content,
+                      'content of assetWithFiledata is correct')
+
+                })
+
+          ]
+
+          if (!isBrowser) {
+            tests.push(
                 // Try to create non-existent asset with filedata
                 client
                     .create({
@@ -109,11 +119,16 @@ module.exports = function (test, utils, Elvis) {
                       t.equal(error.code, 'ENOENT',
                           'non-existent-file should throw ENOENT')
                     })
+            )
+          }
 
-              ])
+          Promise
+              .all(tests)
               .then(() => {
-                fs.unlinkSync(`${_assetWithFiledata.folder}/${_assetWithFiledata.name}`)
-                fs.rmdirSync(_assetWithFiledata.folder)
+                if (!isBrowser) {
+                  fs.unlinkSync(`${_assetWithData.folder}/${_assetWithData.name}`)
+                  fs.rmdirSync(_assetWithData.folder)
+                }
                 t.end()
               })
               .catch(utils.catchError(t))

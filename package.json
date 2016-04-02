@@ -4,9 +4,9 @@
   "description": "Universal javascript driver, that works on both client-side javascript and Node, for handling connections to Elvis API.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "node ./tests | tap-spec",
+    "test": "node ./tests/node.js | tap-spec",
     "browser-test": "zuul --local 8989 -- ./tests/browser.js",
-    "cover": "istanbul cover ./tests && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "cover": "istanbul cover ./tests/node.js && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",

@@ -76,7 +76,7 @@ module.exports = function (test, utils, Elvis) {
   test('public createFolder', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.createFolder())
+        .shouldRequireLogin(t, client => client.createFolder(), Elvis)
         .then((client) => {
           Promise
               .all([

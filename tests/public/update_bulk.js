@@ -3,7 +3,7 @@ module.exports = function (test, utils, Elvis) {
   test('public updateBulk', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.updateBulk())
+        .shouldRequireLogin(t, client => client.updateBulk(), Elvis)
         .then(client => {
 
           var timestamp = utils.getUniqueName()

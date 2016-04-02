@@ -5,7 +5,7 @@ module.exports = function (test, utils, Elvis) {
   test('public browse', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.browse())
+        .shouldRequireLogin(t, client => client.browse(), Elvis)
         .then(client => {
 
           var name = utils.getUniqueName()

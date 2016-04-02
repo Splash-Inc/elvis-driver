@@ -5,7 +5,7 @@ module.exports = function (test, utils, Elvis) {
   test('public search', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.search())
+        .shouldRequireLogin(t, client => client.search(), Elvis)
         .then(client => {
 
           var timestamp = utils.getUniqueName()

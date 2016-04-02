@@ -5,7 +5,7 @@ module.exports = function (test, utils, Elvis) {
   test('public createRelation', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.createRelation())
+        .shouldRequireLogin(t, client => client.createRelation(), Elvis)
         .then(client => {
 
           var timestamp = utils.getUniqueName()

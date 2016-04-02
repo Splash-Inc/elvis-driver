@@ -3,7 +3,7 @@ module.exports = function (test, utils, Elvis) {
   test('public remove', t => {
 
     utils
-        .shouldRequireLogin(t, client => client.remove())
+        .shouldRequireLogin(t, client => client.remove(), Elvis)
         .then(client => {
 
           var timestamp = utils.getUniqueName()
