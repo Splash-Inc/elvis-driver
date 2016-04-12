@@ -73,7 +73,7 @@ module.exports = function (isBrowser) {
                     })
               })
           )
-          .catch(console.log)
+          .catch(console.error)
     }
 
   }
