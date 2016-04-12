@@ -13,16 +13,6 @@ clean:
 	@rm -rf $(DIST)
 	@mkdir $(DIST)
 
-watch:
-	@echo Watching scripts...
-	@$(BIN)/watchify \
-		--transform babelify \
-		--verbose \
-		--standalone Elvis \
-		--delay=100 \
-		--debug \
-		$(JS_INPUT) -o $(JS_OUTPUT)
-
 browserify:
 	@echo Browserifying...
 	@$(BIN)/browserify \
