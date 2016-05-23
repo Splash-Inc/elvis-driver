@@ -20,6 +20,7 @@ utils.deleteAll(Elvis).then(() => {
   require('./public/get_profile')(test, utils, Elvis)
   require('./public/login')(test, utils, Elvis)
   require('./public/logout')(test, utils, Elvis)
+  require('./public/move')(test, utils, Elvis)
   require('./public/remove')(test, utils, Elvis)
   require('./public/remove_relation')(test, utils, Elvis)
   require('./public/search')(test, utils, Elvis)
