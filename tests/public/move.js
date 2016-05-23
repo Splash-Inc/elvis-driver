@@ -1,7 +1,7 @@
 
 var fs = require('fs')
 
-module.exports = function (test, utils, Elvis, isBrowser) {
+module.exports = function (test, utils, Elvis) {
 
   'use strict'
 
