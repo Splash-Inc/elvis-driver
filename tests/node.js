@@ -19,7 +19,7 @@ utils.deleteAll(Elvis).then(() => {
         throw error
       }
       for (let file of files) {
-        if (file.match(/.js/)) {
+        if (file.match(/.js$/)) {
           require(`${directory}/${file}`)(test, utils, Elvis)
         }
       }
