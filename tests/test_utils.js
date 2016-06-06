@@ -73,7 +73,9 @@ module.exports = function (isBrowser) {
                     })
               })
           )
-          .catch(console.error)
+          .catch(err => {
+            console.error(err)
+          })
     }
 
   }
