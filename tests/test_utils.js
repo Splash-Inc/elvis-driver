@@ -1,3 +1,5 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
+
 module.exports = function (isBrowser) {
   return {
 
@@ -55,7 +57,7 @@ module.exports = function (isBrowser) {
             password: this.password
           })
           .then(() => client
-              .search({ q: '' })
+              .search({ q: `ancestorPaths:"${this.folderPath}"`})
               .then(data => {
                 var assets = data.hits.map(hit => (
                     client.remove({ id: hit.id })
