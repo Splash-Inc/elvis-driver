@@ -12,7 +12,7 @@ module.exports = function (test, utils, Elvis, isBrowser) {
           .create({ assetPath: _asset.path })
           // Update
           .then(file => client
-              .update(file.id, { cf_follow: '+lorem' })
+              .update(file.id, { tags: '+lorem' })
               // Search updated file
               .then(() => client
                   .search({ q: _asset.name })
@@ -20,7 +20,7 @@ module.exports = function (test, utils, Elvis, isBrowser) {
 
                     var updatedFile = results.hits.filter(hit => (
                         hit.id === file.id &&
-                        hit.metadata.cf_follow.indexOf('lorem') > -1
+                        hit.metadata.tags.indexOf('lorem') > -1
                     ))[0]
 
                     t.assert(updatedFile, 'Updated file')

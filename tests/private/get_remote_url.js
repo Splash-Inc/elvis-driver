@@ -20,8 +20,7 @@ module.exports = function (test, utils, Elvis) {
 
           t.equal(
               client.__getRemoteURL('/foo/bar'),
-              client.__withSessionID(
-                  client.elvisServerURL + '/foo/bar'),
+              client.elvisServerURL + '/foo/bar',
               'Returns remote url with session id, after login')
 
           t.end()

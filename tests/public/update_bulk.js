@@ -31,7 +31,7 @@ module.exports = function (test, utils, Elvis) {
                 client
                     .updateBulk({
                       q: timestamp,
-                      cf_follow: 'lorem'
+                      tags: 'lorem'
                     })
                     .then(() => {
 
@@ -41,7 +41,7 @@ module.exports = function (test, utils, Elvis) {
 
                             var bulkUpdatedAssets = results.hits.filter(hit => (
                                 hit.metadata.name.match(timestamp) &&
-                                hit.metadata.cf_follow.indexOf('lorem') > -1
+                                hit.metadata.tags.indexOf('lorem') > -1
                             ))
 
                             t.equal(bulkUpdatedAssets.length, 3,
