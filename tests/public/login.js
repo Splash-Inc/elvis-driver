@@ -20,24 +20,44 @@ module.exports = function (test, utils, Elvis) {
 
           t.pass('Should fail with wrong username')
 
-          client
-              .login({
-                username: utils.username,
-                password: utils.password
-              })
-              .then(data => {
+            var tests = [
+              client
+                  .login({
+                    username: utils.username,
+                    password: utils.password
+                  })
+                  .then(data => {
 
-                t.equal(typeof data, 'object',
-                    'Returns an object')
+                    t.equal(typeof data, 'object',
+                        'Returns an object (non sticky)')
 
-                t.equal(typeof data.sessionId, 'string',
-                    'Returns a session ID')
+                    t.equal(typeof data.sessionId, 'string',
+                        'Returns a session ID (non sticky)')
 
-                t.end()
+                  }),
 
-              })
-              .catch(utils.catchError(t))
+            client
+                .login({
+                    username: utils.username,
+                    password: utils.password
+                }, true)
+                .then(data => {
 
+                    t.equal(typeof data, 'object',
+                        'Returns an object (sticky)')
+
+                    t.equal(typeof data.sessionId, 'string',
+                        'Returns a session ID (sticky)')
+
+                })
+            ]
+
+            Promise
+                .all(tests)
+                .then(() => {
+                    t.end()
+                })
+                .catch(utils.catchError(t))
         })
   })
 
