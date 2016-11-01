@@ -2,55 +2,54 @@ module.exports = function (test, utils, Elvis) {
 
   test('public remove', t => {
 
-    utils
-        .shouldRequireLogin(t, client => client.remove(), Elvis)
-        .then(client => {
+    'use strict'
 
-          var timestamp = utils.getUniqueName()
-          var _asset = {
-            name: `foo-${timestamp}.txt`,
-            path: `${utils.folderPath}/foo-${timestamp}.txt`
-          }
+    function checkIfFound(client, q, metadata) {
+      return client.search({ q }).then(results => {
+        var foundFile = results.hits.filter(hit => (
+            hit.metadata.name === metadata.name &&
+            hit.metadata.id === metadata.id
+        ))[0]
 
-          // Create file to remove later on
-          client
-              .create({ assetPath: _asset.path })
-              .then(file => {
+        t.false(foundFile, 'Shouldn\'t find newly removed file')
+      })
+    }
 
-                client
-                    .remove({ id: file.id })
-                    .then(process => {
+    function _remove(client, asset, async) {
+      // Create file to remove later on
+      var create = client.create({ assetPath: asset.path })
 
-                      t.assert(process && process.processId,
-                          'Returns an object with a processId')
+      var remove = create.then(file => client.remove({ id: file.id, async }).then(process => {
 
-                      client
-                          .search({ q: _asset.name })
-                          .then(results => {
+        if (async === false) {
+          t.assert(process && process.processedCount === 1,
+              'Returns an object with a processedCount field, that is 1')
+        } else {
+          t.assert(process && process.processId,
+              'Returns an object with a processId')
+        }
 
-                            var foundFile = results.hits.filter(hit => (
-                                hit.metadata.name === file.metadata.name &&
-                                hit.metadata.id === file.metadata.id
-                            ))[0]
+        return checkIfFound(client, asset.name, file.metadata)
 
-                            t.false(foundFile, 'Shouldn\'t find newly removed file')
+      }))
 
-                            t.end()
+      return remove
+    }
 
-                          })
-                          .catch(utils.catchError(t))
+    utils.shouldRequireLogin(t, client => client.remove(), Elvis).then(client => {
+      var timestamp = utils.getUniqueName()
+      var _asset = {
+        name: `foo-${timestamp}.txt`,
+        path: `${utils.folderPath}/foo-${timestamp}.txt`
+      }
 
-                    })
-                    .catch(utils.catchError(t))
+      var syncRemove = _remove(client, _asset, false)
+      var asyncRemove1 = syncRemove.then(() => _remove(client, _asset, true))
+      var asyncRemove2 = asyncRemove1.then(() => _remove(client, _asset))
+      return asyncRemove2.then(() => t.end())
 
-              })
-              .catch(utils.catchError(t))
-
-        })
-        .catch(utils.catchError(t))
+    }).catch(utils.catchError(t))
 
   })
-
-  'use strict'
 
 }
