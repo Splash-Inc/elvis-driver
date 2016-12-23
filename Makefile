@@ -5,7 +5,7 @@ SRC = ./lib
 JS_INPUT = $(SRC)/index.js
 JS_OUTPUT = $(DIST)/index.js
 
-all: clean browserify
+all: clean browserify min
 	@make finish_message type=browserify
 
 clean:
