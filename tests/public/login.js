@@ -36,7 +36,7 @@ module.exports = function (test, utils, Elvis) {
 
                   }),
 
-            client
+              client
                 .login({
                     username: utils.username,
                     password: utils.password
@@ -49,6 +49,25 @@ module.exports = function (test, utils, Elvis) {
                     t.equal(typeof data.sessionId, 'string',
                         'Returns a session ID (sticky)')
 
+                }),
+              
+              client
+                .login({
+                    withCookie: true
+                }, true)
+                .then(data => {
+                    if (typeof document != 'undefined' && document.cookie && document.cookie.indexOf('JSESSIONID') != -1) {
+                        t.pass('Should pass cookie is set')
+                    } else {
+                        t.fail('Should have failed cookie is unset')
+                    }
+                })
+                .catch(data => {
+                    if (typeof document == 'undefined' || !document.cookie || document.cookie.indexOf('JSESSIONID') == -1) {
+                        t.pass('Should fail cookie is unset')
+                    } else {
+                        t.fail('Should have passed cookie is set')
+                    }
                 })
             ]
 
