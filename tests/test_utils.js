@@ -3,7 +3,7 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
 module.exports = function (isBrowser) {
   return {
 
-    server: `${isBrowser ? 'http://' : ''}164.40.153.73`,
+    server: 'http://ems-test-58337952.eu-west-1.elb.amazonaws.com',
 
     username: 'test',
 
