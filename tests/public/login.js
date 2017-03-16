@@ -29,28 +29,13 @@ module.exports = function (test, utils, Elvis) {
                   .then(data => {
 
                     t.equal(typeof data, 'object',
-                        'Returns an object (non sticky)')
+                        'Returns an object')
 
                     t.equal(typeof data.sessionId, 'string',
-                        'Returns a session ID (non sticky)')
+                        'Returns a session ID')
 
                   }),
 
-              client
-                .login({
-                    username: utils.username,
-                    password: utils.password
-                }, true)
-                .then(data => {
-
-                    t.equal(typeof data, 'object',
-                        'Returns an object (sticky)')
-
-                    t.equal(typeof data.sessionId, 'string',
-                        'Returns a session ID (sticky)')
-
-                }),
-              
               client
                 .login({
                     withCookie: true
