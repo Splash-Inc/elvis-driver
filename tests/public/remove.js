@@ -29,7 +29,8 @@ module.exports = function (test, utils, Elvis) {
               'Returns an object with a processId')
         }
 
-        return checkIfFound(client, asset.name, file.metadata)
+        // Wait for asset to be removed for async remove
+        setTimeout(checkIfFound.bind(null, client, asset.name, file.metadata), 1000)
 
       }))
 

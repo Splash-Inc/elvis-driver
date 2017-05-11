@@ -31,8 +31,11 @@ module.exports = function (test, utils, Elvis) {
                     t.equal(typeof data, 'object',
                         'Returns an object')
 
-                    t.equal(typeof data.sessionId, 'string',
-                        'Returns a session ID')
+                    if (typeof data.sessionId != 'undefined' || typeof data.csrfToken != 'undefined') {
+                        t.pass('Returns a token')
+                    } else {
+                        t.fail('Should have returned a token (either sessionId or csrfToken')
+                    }
 
                   }),
 
