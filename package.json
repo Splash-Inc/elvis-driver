@@ -34,7 +34,7 @@
     "minami": "^1.1.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.4.0",
-    "uglifyjs": "^2.4.10",
+    "uglify-js": "^3.3.11",
     "zuul": "^3.10.1"
   },
   "engines": {
